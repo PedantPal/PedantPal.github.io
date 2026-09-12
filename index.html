@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Daniel — Software Engineer. Studying physics, math, and CS, building toward the craft full-time." />
+  <meta name="color-scheme" content="light" />
+  <title>Daniel — Software Engineer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --page: #fff8e7;
+      --panel: #f4f1e0;
+      --ink: #0d0d0d;
+      --ink-soft: #3a3630;
+      --red: #e8432f;
+      --yellow: #ffc93c;
+      --blue: #2f6fb0;
+      --blue-dark: #204d80;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: "Inter", sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    .comic {
+      font-family: "Bangers", cursive;
+      letter-spacing: 0.03em;
+    }
+
+    /* halftone dot texture, used as background fill inside colored panels */
+    .halftone {
+      background-image: radial-gradient(var(--ink) 1px, transparent 1.4px);
+      background-size: 9px 9px;
+      opacity: .14;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      width: min(760px, calc(100% - 32px));
+      margin-inline: auto;
+    }
+
+    /* ---- header ---- */
+
+    header {
+      padding: 24px 0 0;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 18px;
+    }
+
+    .brand {
+      font-family: "Bangers", cursive;
+      font-size: 1.7rem;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      transform: rotate(-2deg);
+      display: inline-block;
+    }
+
+    .brand .dot { color: var(--red); }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 700;
+      font-size: .85rem;
+      padding: 7px 14px;
+      background: var(--yellow);
+      border: 2.5px solid var(--ink);
+      box-shadow: 3px 3px 0 var(--ink);
+      transform: rotate(-1deg);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    .nav-links a:nth-child(2) { transform: rotate(1deg); }
+    .nav-links a:nth-child(3) { transform: rotate(-1deg); }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      transform: translate(2px, 2px) rotate(0deg);
+      box-shadow: 1px 1px 0 var(--ink);
+      outline: none;
+    }
+
+    /* ---- hero / splash panel ---- */
+
+    .hero {
+      margin: 18px 0 40px;
+      position: relative;
+      border: 5px solid var(--ink);
+      background: var(--blue);
+      padding: 52px 32px 44px;
+      overflow: hidden;
+      transform: rotate(-0.6deg);
+      box-shadow: 8px 8px 0 var(--ink);
+    }
+
+    .hero-inner { position: relative; z-index: 1; }
+
+    .kicker {
+      display: inline-block;
+      font-family: "Bangers", cursive;
+      font-size: 1.05rem;
+      letter-spacing: .05em;
+      background: var(--yellow);
+      color: var(--ink);
+      border: 3px solid var(--ink);
+      padding: 4px 14px;
+      transform: rotate(-3deg);
+      margin: 0 0 20px;
+    }
+
+    h1 {
+      font-family: "Bangers", cursive;
+      font-size: clamp(3rem, 11vw, 5.2rem);
+      line-height: 0.95;
+      margin: 0 0 6px;
+      color: #fff8e7;
+      -webkit-text-stroke: 2.5px var(--ink);
+      text-shadow: 4px 4px 0 var(--ink);
+      letter-spacing: 0.02em;
+    }
+
+    .role-shout {
+      font-family: "Bangers", cursive;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      color: var(--yellow);
+      -webkit-text-stroke: 1.5px var(--ink);
+      text-shadow: 3px 3px 0 var(--ink);
+      margin: 0 0 22px;
+      transform: rotate(-1deg);
+      display: inline-block;
+    }
+
+    .speech-bubble {
+      position: relative;
+      background: #fff8e7;
+      border: 4px solid var(--ink);
+      border-radius: 22px;
+      padding: 20px 24px;
+      max-width: 52ch;
+      font-size: 1.02rem;
+      color: var(--ink-soft);
+      margin: 0 0 28px;
+    }
+
+    .speech-bubble strong { color: var(--ink); }
+
+    .speech-bubble::after {
+      content: "";
+      position: absolute;
+      left: 38px;
+      bottom: -22px;
+      width: 0;
+      height: 0;
+      border: 14px solid transparent;
+      border-top-color: var(--ink);
+      border-bottom: 0;
+    }
+
+    .speech-bubble::before {
+      content: "";
+      position: absolute;
+      left: 42px;
+      bottom: -16px;
+      width: 0;
+      height: 0;
+      border: 10px solid transparent;
+      border-top-color: #fff8e7;
+      border-bottom: 0;
+      z-index: 1;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 34px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "Bangers", cursive;
+      font-size: 1.1rem;
+      letter-spacing: .03em;
+      padding: 12px 26px;
+      text-decoration: none;
+      border: 3px solid var(--ink);
+      box-shadow: 5px 5px 0 var(--ink);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translate(3px, 3px);
+      box-shadow: 2px 2px 0 var(--ink);
+      outline: none;
+    }
+
+    .btn.primary { background: var(--red); color: #fff8e7; }
+    .btn.ghost { background: var(--yellow); color: var(--ink); }
+
+    /* ---- sections ---- */
+
+    section { padding: 44px 0; }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 30px;
+    }
+
+    .issue-tag {
+      font-family: "Bangers", cursive;
+      font-size: .95rem;
+      background: var(--ink);
+      color: var(--page);
+      padding: 5px 12px;
+      transform: rotate(-2deg);
+      white-space: nowrap;
+    }
+
+    h2 {
+      font-family: "Bangers", cursive;
+      font-size: 2rem;
+      letter-spacing: .02em;
+      margin: 0;
+    }
+
+    /* ---- about panel ---- */
+
+    #about .panel {
+      position: relative;
+      border: 4px solid var(--ink);
+      background: var(--panel);
+      padding: 28px 26px;
+      box-shadow: 6px 6px 0 var(--ink);
+    }
+
+    .about-text {
+      position: relative;
+      z-index: 1;
+      max-width: 62ch;
+      font-size: 1.02rem;
+      color: var(--ink-soft);
+    }
+
+    .about-text strong { color: var(--ink); font-weight: 700; }
+
+    .tags {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .tag {
+      font-weight: 700;
+      font-size: .82rem;
+      padding: 6px 13px;
+      border: 2.5px solid var(--ink);
+      background: var(--yellow);
+      transform: rotate(-1deg);
+    }
+
+    .tag:nth-child(even) { transform: rotate(1deg); background: #fff; }
+    .tag.pow { background: var(--red); color: #fff8e7; }
+
+    /* ---- projects as panels ---- */
+
+    .project-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .project {
+      position: relative;
+      display: grid;
+      grid-template-columns: 84px 1fr auto;
+      gap: 18px;
+      align-items: center;
+      border: 4px solid var(--ink);
+      background: var(--panel);
+      padding: 20px 22px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 6px 6px 0 var(--ink);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    .project:nth-child(1) { transform: rotate(-0.5deg); }
+    .project:nth-child(2) { transform: rotate(0.5deg); }
+
+    .project:hover {
+      transform: translate(3px, 3px) rotate(0deg);
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+
+    .project-badge {
+      font-family: "Bangers", cursive;
+      font-size: 1.5rem;
+      color: #fff8e7;
+      background: var(--blue);
+      border: 3px solid var(--ink);
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(-4deg);
+      position: relative;
+      z-index: 1;
+    }
+
+    .project.is-live .project-badge { background: var(--red); }
+
+    .project h3 {
+      margin: 0 0 6px;
+      font-family: "Bangers", cursive;
+      font-size: 1.25rem;
+      letter-spacing: .01em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .project p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: .95rem;
+      max-width: 42ch;
+      position: relative;
+      z-index: 1;
+    }
+
+    .project-meta {
+      font-weight: 800;
+      font-size: .78rem;
+      color: var(--ink);
+      background: var(--yellow);
+      border: 2px solid var(--ink);
+      padding: 5px 10px;
+      white-space: nowrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ---- contact ---- */
+
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      border: 4px solid var(--ink);
+      background: var(--yellow);
+      text-decoration: none;
+      color: var(--ink);
+      box-shadow: 6px 6px 0 var(--ink);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    .contact-row:nth-child(1) { transform: rotate(-0.7deg); }
+    .contact-row:nth-child(2) { transform: rotate(0.7deg); background: #fff; }
+
+    .contact-row:hover {
+      transform: translate(3px, 3px) rotate(0deg);
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+
+    .contact-row .label {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 700;
+    }
+
+    .contact-row .glyph {
+      font-family: "Bangers", cursive;
+      font-size: 1.3rem;
+      background: var(--ink);
+      color: var(--page);
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-row .value {
+      font-weight: 600;
+      font-size: .9rem;
+    }
+
+    footer {
+      padding: 40px 0 54px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    footer .stamp {
+      font-family: "Bangers", cursive;
+      font-size: 1rem;
+      background: var(--red);
+      color: #fff8e7;
+      padding: 6px 14px;
+      border: 3px solid var(--ink);
+      transform: rotate(-2deg);
+    }
+
+    footer .fine-print {
+      font-size: .82rem;
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--blue-dark);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 40px 20px 34px; }
+      .project { grid-template-columns: 56px 1fr; }
+      .project-meta { grid-column: 2; justify-self: start; margin-top: 4px; }
+      .project-badge { width: 46px; height: 46px; font-size: 1.15rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <nav class="nav" aria-label="Main navigation">
+        <a class="brand" href="#">DANIEL<span class="dot">!</span></a>
+        <div class="nav-links">
+          <a href="#about">About</a>
+          <a href="#projects">Work</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="halftone" aria-hidden="true"></div>
+        <div class="hero-inner">
+          <span class="kicker">ORIGIN STORY</span>
+          <h1>DANIEL</h1>
+          <p class="role-shout">SOFTWARE ENGINEER</p>
+          <div class="speech-bubble">
+            Currently a student splitting time between <strong>physics,
+            math, and computer science</strong> — but the pull toward
+            building software got stronger than the pull toward any of
+            the theory. This is where that's heading!
+          </div>
+          <div class="buttons">
+            <a class="btn primary" href="#projects">SEE MY WORK</a>
+            <a class="btn ghost" href="https://github.com/PedantPal" target="_blank" rel="noopener">GITHUB</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="section-title-wrap">
+          <span class="issue-tag">ISSUE #1</span>
+          <h2>ABOUT ME</h2>
+        </div>
+        <div class="panel">
+          <div class="halftone" aria-hidden="true"></div>
+          <p class="about-text">
+            I'm studying <strong>physics, math, and computer science</strong>,
+            but I've been steadily diverging toward one thing:
+            <strong>software engineering</strong>. The science gave me a way
+            of thinking — model the system, test the assumption, find where
+            it breaks. Writing code turned out to be the fastest place to
+            keep doing exactly that.
+          </p>
+          <p class="about-text" style="margin-top: 14px;">
+            Still a student, so this is early — but the direction is set.
+            I don't run around social media much. GitHub is where most of
+            my work lives, and email is the easiest way to actually reach me.
+          </p>
+          <div class="tags">
+            <span class="tag pow">SOFTWARE ENGINEER</span>
+            <span class="tag">PHYSICS</span>
+            <span class="tag">MATH</span>
+            <span class="tag">COMPUTER SCIENCE</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects">
+        <div class="section-title-wrap">
+          <span class="issue-tag">ISSUE #2</span>
+          <h2>THE WORK</h2>
+        </div>
+        <div class="project-grid">
+          <a class="project in-progress" href="https://github.com/PedantPal" target="_blank" rel="noopener">
+            <span class="project-badge">1</span>
+            <div>
+              <h3>MRISHO GAMBO SECONDARY SCHOOL</h3>
+              <p>Built to make school information easier to find and present. Still under construction.</p>
+            </div>
+            <span class="project-meta">IN PROGRESS</span>
+          </a>
+
+          <a class="project is-live" href="https://github.com/PedantPal" target="_blank" rel="noopener">
+            <span class="project-badge">2</span>
+            <div>
+              <h3>@PEDANTPAL ON GITHUB</h3>
+              <p>Everything else I've built, and whatever's next, lives here.</p>
+            </div>
+            <span class="project-meta">ALWAYS OPEN</span>
+          </a>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="section-title-wrap">
+          <span class="issue-tag">ISSUE #3</span>
+          <h2>SAY HELLO</h2>
+        </div>
+        <div class="contact-list">
+          <a class="contact-row" href="https://github.com/PedantPal" target="_blank" rel="noopener">
+            <span class="label"><span class="glyph">Gh</span> GitHub</span>
+            <span class="value">@PedantPal</span>
+          </a>
+          <a class="contact-row" href="mailto:pedant.pal@gmail.com">
+            <span class="label"><span class="glyph">@</span> Email</span>
+            <span class="value">pedant.pal@gmail.com</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span class="stamp">TO BE CONTINUED...</span>
+      <span class="fine-print">built by Daniel</span>
+    </footer>
+  </div>
+</body>
+</html>
